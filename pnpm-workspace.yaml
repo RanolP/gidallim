@@ -1,0 +1,7 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+catalogs:
+  default:
+    typescript: 5.5.4

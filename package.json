@@ -1,0 +1,14 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "stmux -M -- [ 'pnpm dev:api' .. 'pnpm dev:website' ]",
+    "dev:api": "pnpm --filter=api dev",
+    "dev:website": "pnpm --filter=website dev"
+  },
+  "devDependencies": {
+    "stmux": "^1.8.9",
+    "typescript": "catalog:default"
+  }
+}
