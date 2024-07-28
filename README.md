@@ -53,7 +53,7 @@
 - pothos : 훌륭한 GraphQL 스키마 빌더이다.
 - drizzle-orm : 훌륭한 ORM이다.
 - effect : 타입 안전한 Effect 구현체로 다음의 장점을 얻는다.
-  - 타입 안전한 오류 (effect는 Result의 기능을 포함한다)
+  - 타입 안전한 오류 - effect는 Result의 기능을 포함한다.
   - 오륲의 구분 - 단순 throw와 달리 실패(Expected Error/Failure)와 결함(Unexpected Error/Defect)으로 나눈다.
     복구 가능성과 실수 여부를 단순 명료하게 관리할 수 있다.
   - 맥락 관리 - Service를 직접 만들어 제공할 수 있다.
