@@ -11,7 +11,7 @@
 그리고 끝내, 보편 언어(Ubiquitous Language)를 구성해 소통해야 한다.
 보편 언어는 도메인 주도 설계를 지탱하는 기둥 중 하나다.
 
-도메인 주도 설계에서 도메인 계층은, 다중 계층 아키텍처(Multi-layered Architecture)의 공통 계층 중 하나이다.
+도메인 주도 설계에서 도메인 계층은, [계층식 아키텍처/계층식 구성법(Layered Architecture)](../development/methodology/Layered-Architecture.md)을 사용할 때 등장하는 공통 계층 중 하나이다.
 
 ## 모델의 분류
 
