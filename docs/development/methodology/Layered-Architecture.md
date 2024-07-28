@@ -16,7 +16,7 @@
 - 3 계층
   - 표현(Presentation) - 논리(Logic) - 자료(Data) : '클라이언트 - 서버 로직 - 쿼리 및 데이터베이스' 구조를 계층으로 해석할 수도 있다.
 - 4 계층
-  - 표현(Presentation) - 앱(Application) - 비즈니스(Business)/문제영역(Domain) - 자료 접근(Data Access)/영속성(Persistence)
+  - 표현(Presentation) - 앱(Application) - 비즈니스(Business)/문제영역(Domain) - 자료 접근(Data Access)/영속성(Persistence)/인프라, 기틀(Infrastructure)
 
 ## 각 계층의 역할
 
@@ -72,3 +72,8 @@
 어떻게 자료가 접근되고, 저장되고, 관리되며, 유지보수되는지를 중점적으로 살펴보며, 자료 접근 계층을 포함하는 경우도 있다.
 
 객체-관계형 변환기(ORM; Object-Relational Mapping)를 사용해 관계형 데이터베이스 자료와 객체 사이의 변환을 수행하거나, 트랜잭션 관리, 캐싱(Caching), 연결 풀링(Connection Pooling) 등을 수행하는 경우도 많다.
+
+### 인프라 계층/기틀 계층(Infrastructure Layer)
+
+자료 접근 및 영속성이 단순 자료 저장에만 집중한 반면, 기틀 계층은 앱을 위해 필요한 모든 기틀을 잡는다.
+웹 서버 설정, 로그 프레임워크 설정, 보안 설정, 전산망 설정 등 켜지기 위해 필요한 모든 것은 대체로 기틀 계층에 속할 수 있다.
