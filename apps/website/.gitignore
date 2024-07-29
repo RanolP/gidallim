@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+introspection.json
+src/shared/graphql-codegen/

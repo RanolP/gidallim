@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "codegen": "pnpm -F=api introspection; pnpm -F=website codegen",
     "dev": "stmux -M -- [ 'pnpm dev:api' .. 'pnpm dev:website' ]",
-    "dev:api": "pnpm --filter=api dev",
-    "dev:website": "pnpm --filter=website dev"
+    "dev:api": "pnpm -F=api dev",
+    "dev:website": "pnpm -F=website dev"
   },
   "devDependencies": {
     "stmux": "^1.8.9",

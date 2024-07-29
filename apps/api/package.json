@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "src/main.ts",
+  "main": "index/main.ts",
   "scripts": {
+    "introspection": "tsx scripts/introspection.ts ../website/introspection.json",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
@@ -16,6 +17,7 @@
   "dependencies": {
     "@pothos/core": "^4.0.2",
     "drizzle-orm": "^0.32.1",
+    "effect": "^3.5.8",
     "graphql": "^16.9.0",
     "graphql-yoga": "^5.6.1"
   },
@@ -23,6 +25,7 @@
     "@cloudflare/workers-types": "^4.20240725.0",
     "@types/service-worker-mock": "^2.0.4",
     "drizzle-kit": "^0.23.0",
+    "tsx": "^4.16.2",
     "typescript": "catalog:default",
     "wrangler": "^3.67.1"
   }
