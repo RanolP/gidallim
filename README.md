@@ -58,11 +58,13 @@
     복구 가능성과 실수 여부를 단순 명료하게 관리할 수 있다.
   - 맥락 관리 - Service를 직접 만들어 제공할 수 있다.
 
-### 웹
+### 웹사이트
 
 - vite : 최소한의 비용을 위해 SPA를 구축한다.
 - react : 팀원을 고려할 때 가장 적합하다.
 - @tanstack/router : type-safe & file-based router의 강력함을 누릴 수 있다.
+- urql : 훌륭한 GraphQL Client다.
+  - graphql-codegen : 더 나은 타입 안전성을 위해 사용한다.
 
 ### 참여자
 
