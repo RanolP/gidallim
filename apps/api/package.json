@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "index/main.ts",
+  "main": "src/index.ts",
   "scripts": {
     "introspection": "tsx scripts/introspection.ts ../website/introspection.json",
     "deploy": "wrangler deploy",
