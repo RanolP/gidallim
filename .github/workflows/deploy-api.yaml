@@ -10,7 +10,7 @@ concurrency:
 jobs:
   deploy:
     environment:
-      name: ${{ github.ref_name }}
+      name: ${{ github.ref_name }}/api
       url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
     runs-on: ubuntu-22.04
     steps:
@@ -30,8 +30,8 @@ jobs:
       - run: pnpm install
       - id: cloudflare-pages-deployment
         run: |
-          output=$(NODE_ENV=development pnpm run deploy:api | tee /dev/tty)
-          url=$(echo $output | grep -o 'https://[^ ]+.pages.dev')
+          NODE_ENV=development pnpm run deploy:api | tee ./deployment.log
+          url=$(cat deployment.log | grep -o 'https://[^ ]+.pages.dev')
           echo "url=$url" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
