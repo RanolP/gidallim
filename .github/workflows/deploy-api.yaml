@@ -31,10 +31,7 @@ jobs:
       - id: cloudflare-pages-deployment
         run: |
           NODE_ENV=development pnpm run deploy:api | tee ./deployment.log
-          ls
-          echo $(cat ./deployment.log)
-          url=$(cat ./deployment.log | grep -o 'https://[^ ]+.pages.dev')
-          echo $url
+          url=$(grep -o 'https://[^ ]*.pages.dev' deployment.log)
           echo "url=$url" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
