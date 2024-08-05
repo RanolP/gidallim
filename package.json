@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "codegen": "pnpm -F=api introspection; pnpm -F=website codegen",
+    "codegen": "pnpm -F=api run introspection; pnpm -F=website run codegen",
     "------ DEV -------": "",
-    "dev": "stmux -M -- [ 'pnpm dev:api' .. 'pnpm dev:website' ]",
-    "dev:api": "pnpm -F=api dev",
-    "dev:website": "pnpm -F=website dev",
+    "dev": "stmux -M -- [ 'pnpm run dev:api' .. 'pnpm run dev:website' ]",
+    "dev:api": "pnpm -F=api run dev",
+    "dev:website": "pnpm -F=website run dev",
     "----- DEPLOY -----": "",
-    "deploy:api": "pnpm -F=api deploy"
+    "deploy:api": "pnpm -F=api run deploy"
   },
   "devDependencies": {
     "stmux": "^1.8.9",
