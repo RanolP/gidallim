@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "introspection": "tsx scripts/introspection.ts ../website/introspection.json",
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler pages deploy",
     "dev": "wrangler pages dev",
     "start": "wrangler dev",
     "cf-typegen": "wrangler types"
