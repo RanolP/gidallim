@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "codegen": "pnpm -F=api introspection; pnpm -F=website codegen",
+    "------ DEV -------": "",
     "dev": "stmux -M -- [ 'pnpm dev:api' .. 'pnpm dev:website' ]",
     "dev:api": "pnpm -F=api dev",
-    "dev:website": "pnpm -F=website dev"
+    "dev:website": "pnpm -F=website dev",
+    "----- DEPLOY -----": "",
+    "deploy:api": "pnpm -F=api deploy"
   },
   "devDependencies": {
     "stmux": "^1.8.9",

@@ -1,0 +1,28 @@
+on:
+  pull_request:
+    types: ["opened", "synchronize", "reopened"]
+    # paths: ["apps/api"]
+
+concurrency:
+  cancel-in-progress: true
+  group: "${{github.ref}}/deploy-api"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            apps/api
+            packages
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "9.6.0"
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm run deploy:api
