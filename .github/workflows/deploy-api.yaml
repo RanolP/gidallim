@@ -31,7 +31,8 @@ jobs:
       - id: cloudflare-pages-deployment
         run: |
           NODE_ENV=development pnpm run deploy:api | tee ./deployment.log
-          echo cat ./deployment.log
+          ls
+          echo $(cat ./deployment.log)
           url=$(cat ./deployment.log | grep -o 'https://[^ ]+.pages.dev')
           echo $url
           echo "url=$url" >> $GITHUB_OUTPUT
