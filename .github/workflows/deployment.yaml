@@ -83,6 +83,7 @@ jobs:
       - uses: actions/github-script@v7
         id: body-generator
         with:
+          result-encoding: string
           script: |
             const jobs = {
               api: {
@@ -114,7 +115,7 @@ jobs:
             Deployment status for ${{ github.sha }}.
 
             | Name | Status | Link |
-
+            ${lines.join('\n')}
             `;
 
       - uses: peter-evans/create-or-update-comment@v4
