@@ -45,10 +45,12 @@ jobs:
         id: find-comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
           body-includes: "Deploy Preview"
       - uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ## Deploy Preview is ready!
