@@ -106,15 +106,23 @@ jobs:
               : '✅ Deploy Preview is ready!'
             );
 
-            const lines = Object.entries(jobs).map(([name, { status, url }]) => (
-              `| ${name} | ${status} | ${url} |`
-            ))
+            const statusMap = {
+              success: '✅',
+              failure: '❌',
+            }
+            const lines = Object
+              .entries(jobs)
+              .filter(([, { status }]) => status in statusMap)
+              .map(([name, { status, url }]) => (
+                `| ${name} | ${statusMap[status]} | ${url} |`
+              ))
 
-            return `${title}
+            return `## ${title}
 
             Deployment status for ${{ github.sha }}.
 
             | Name | Status | Link |
+            | ---- | ------ | ---- |
             ${lines.join('\n')}
             `;
 
