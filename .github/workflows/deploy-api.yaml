@@ -8,7 +8,9 @@ concurrency:
   group: "${{github.ref}}/deploy-api"
 
 jobs:
-  deploy:
+  deploy-api:
+    outputs:
+      deploy-api-url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
     environment:
       name: ${{ github.ref_name }}/api
       url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
@@ -35,3 +37,22 @@ jobs:
           echo "url=$url" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  comment:
+    runs-on: ubuntu-22.04
+    needs: [deploy-api]
+    steps:
+      - uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: "Deploy Preview"
+      - uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Deploy Preview is ready!
+
+            | Name |         Commit         |                      Link                      |
+            | ---- | ---------------------- | ---------------------------------------------- |
+            | api  | ${{ github.head_ref }} | ${{ needs.deploy-api.outputs.deploy-api-url }} |
