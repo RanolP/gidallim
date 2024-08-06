@@ -71,6 +71,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   comment:
     runs-on: ubuntu-22.04
+    if: always()
     needs: [deploy-api, deploy-website]
     steps:
       - uses: peter-evans/find-comment@v3
