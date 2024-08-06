@@ -9,7 +9,8 @@
     "dev:api": "pnpm -F=api run dev",
     "dev:website": "pnpm -F=website run dev",
     "----- DEPLOY -----": "",
-    "deploy:api": "pnpm -F=api run deploy"
+    "deploy:api": "pnpm -F=api run deploy",
+    "deploy:website": "pnpm -F=website run deploy"
   },
   "devDependencies": {
     "stmux": "^1.8.9",

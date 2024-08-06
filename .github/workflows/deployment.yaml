@@ -52,6 +52,7 @@ jobs:
         with:
           sparse-checkout: |
             apps/website
+            apps/api
             packages
       - uses: pnpm/action-setup@v4
         with:
@@ -62,6 +63,7 @@ jobs:
           node-version: "20.x"
           cache: "pnpm"
       - run: pnpm install
+      - run: pnpm run codegen
       - id: cloudflare-pages-deployment
         run: |
           NODE_ENV=development pnpm run deploy:website | tee ./deployment.log

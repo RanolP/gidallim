@@ -7,12 +7,14 @@
     "codegen": "graphql-codegen",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy": "pnpm run build && wrangler pages deploy",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.3.3",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@tanstack/react-router": "^1.45.11",
     "@tanstack/router-devtools": "^1.45.11",
     "graphql": "^16.9.0",
@@ -31,6 +33,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "typescript": "^5.2.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "wrangler": "catalog:default"
   }
 }

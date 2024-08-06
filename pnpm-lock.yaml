@@ -9,6 +9,9 @@ catalogs:
     typescript:
       specifier: 5.5.4
       version: 5.5.4
+    wrangler:
+      specifier: 3.68.0
+      version: 3.68.0
 
 importers:
 
@@ -52,7 +55,7 @@ importers:
         specifier: catalog:default
         version: 5.5.4
       wrangler:
-        specifier: ^3.68.0
+        specifier: catalog:default
         version: 3.68.0(@cloudflare/workers-types@4.20240729.0)
 
   apps/website:
@@ -63,6 +66,9 @@ importers:
       '@graphql-codegen/client-preset':
         specifier: ^4.3.3
         version: 4.3.3(graphql@16.9.0)
+      '@graphql-typed-document-node/core':
+        specifier: ^3.2.0
+        version: 3.2.0(graphql@16.9.0)
       '@tanstack/react-router':
         specifier: ^1.45.11
         version: 1.45.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -115,6 +121,9 @@ importers:
       vite:
         specifier: ^5.3.4
         version: 5.3.5(@types/node@22.1.0)(terser@5.31.3)
+      wrangler:
+        specifier: catalog:default
+        version: 3.68.0(@cloudflare/workers-types@4.20240729.0)
 
 packages:
 
