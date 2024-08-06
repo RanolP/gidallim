@@ -1,6 +1,6 @@
 #:schema node_modules/wrangler/config-schema.json
-name = "api"
-pages_build_output_dir = "./public"
+name = "website"
+pages_build_output_dir = "./dist"
 compatibility_date = "2024-07-25"
 
 # Automatically place your workloads in an optimal location to minimize latency.

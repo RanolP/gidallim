@@ -5,3 +5,4 @@ packages:
 catalogs:
   default:
     typescript: 5.5.4
+    wrangler: 3.68.0

@@ -1,17 +1,9 @@
-import { builder } from "./builder";
+import { createBuilder } from "./builder";
+import { install as installModuleTestSum } from "./modules/test-sum/presentation";
 
 export function buildSchema() {
-  builder.queryType({
-    fields: (t) => ({
-      sum: t.int({
-        args: {
-          a: t.arg.int(),
-          b: t.arg.int(),
-        },
-        resolve: (parent, { a, b }) => a + b,
-      }),
-    }),
-  });
+  const builder = createBuilder();
+  installModuleTestSum(builder);
 
   return builder.toSchema();
 }
