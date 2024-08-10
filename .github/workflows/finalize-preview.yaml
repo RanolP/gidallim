@@ -2,15 +2,26 @@ on:
   pull_request:
     # types: ['closed']
 
+permissions:
+  contents: write
+  deployments: write
+
 jobs:
   delete:
     runs-on: ubuntu-latest
     steps:
-      - uses: strumwolf/delete-deployment-environment@v2
+      - uses: actions/github-script@v7
         with:
-          environment: ${{ github.ref_name }}/api
-          ref: ${{ github.ref_name }}
-      - uses: strumwolf/delete-deployment-environment@v2
-        with:
-          environment: ${{ github.ref_name }}/website
-          ref: ${{ github.ref_name }}
+          script: |
+            await Promise.all(
+              [
+                '${{ github.ref_name }}/api',
+                '${{ github.ref_name }}/website',
+              ].map((env) =>
+                octokit.rest.repos.environments.delete({
+                  repo: ${{ github.repository }},
+                  environments: env,
+                })
+              )
+            )
+            // https://api.github.com/repos/${{ github.repository }}/environments/${{ github.event.pull_request.head.ref }}
