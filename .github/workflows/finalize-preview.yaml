@@ -22,6 +22,6 @@ jobs:
                   owner: '${{ github.repository_owner }}',
                   repo: '${{ github.repository }}',
                   environment_name,
-                });
+                })
               )
             )
