@@ -17,11 +17,11 @@ jobs:
               [
                 '${{ github.ref_name }}/api',
                 '${{ github.ref_name }}/website',
-              ].map((env) =>
-                octokit.rest.repos.environments.delete({
-                  repo: ${{ github.repository }},
-                  environments: env,
-                })
+              ].map((environment_name) =>
+                github.rest.repos.deleteAnEnvironment({
+                  owner: '${{ github.repository_owner }}',
+                  repo: '${{ github.repository }}',
+                  environment_name,
+                });
               )
             )
-            // https://api.github.com/repos/${{ github.repository }}/environments/${{ github.event.pull_request.head.ref }}
