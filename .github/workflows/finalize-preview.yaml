@@ -2,12 +2,7 @@ on:
   pull_request:
     # types: ['closed']
 
-permissions:
-  contents: write
-  deployments: write
-  actions: write
-  statuses: write
-  pull-requests: write
+permissions: write-all
 
 jobs:
   delete:
