@@ -11,7 +11,7 @@ jobs:
       - uses: actions/create-github-app-token@v1
         id: app-token
         with:
-          app-id: ${{ vars.GH_TOEKN_APP_ID }}
+          app-id: ${{ vars.GH_TOKEN_APP_ID }}
           private-key: ${{ secrets.GH_TOKEN_PRIVATE_KEY }}
       - uses: actions/github-script@v7
         with:
