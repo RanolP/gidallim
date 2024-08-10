@@ -1,0 +1,16 @@
+on:
+  pull_request:
+    # types: ['closed']
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: strumwolf/delete-deployment-environment@v2
+        with:
+          environment: ${{ github.ref_name }}/api
+          ref: ${{ github.ref_name }}
+      - uses: strumwolf/delete-deployment-environment@v2
+        with:
+          environment: ${{ github.ref_name }}/website
+          ref: ${{ github.ref_name }}
