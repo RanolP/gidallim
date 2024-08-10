@@ -1,0 +1,156 @@
+on:
+  pull_request:
+    types: ['opened', 'synchronize', 'reopened']
+
+concurrency:
+  cancel-in-progress: true
+  group: '${{github.ref}}/deployment'
+
+permissions:
+  pull-requests: write
+
+jobs:
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      apps-api: ${{ steps.changes.outputs.apps-api }}
+      apps-website: ${{ steps.changes.outputs.apps-website }}
+      packages: ${{ steps.changes.outputs.packages }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            apps-api:
+              - 'apps/api/**'
+            apps-website:
+              - 'apps/website/**'
+            packages:
+              - 'packages/**'
+  deploy-api:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.apps-api || needs.changes.outputs.packages }}
+    outputs:
+      url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
+    environment:
+      name: ${{ github.ref_name }}/api
+      url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            apps/api
+            packages
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'pnpm'
+      - run: pnpm install
+      - id: cloudflare-pages-deployment
+        run: |
+          NODE_ENV=development pnpm run deploy:api | tee ./deployment.log
+          url=$(grep -o 'https://[^ ]*.pages.dev' deployment.log)
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  deploy-website:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.apps-website || needs.changes.outputs.packages }}
+    outputs:
+      url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
+    environment:
+      name: ${{ github.ref_name }}/website
+      url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            apps/website
+            apps/api
+            packages
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run codegen
+      - id: cloudflare-pages-deployment
+        run: |
+          NODE_ENV=development pnpm run deploy:website | tee ./deployment.log
+          url=$(grep -o 'https://[^ ]*.pages.dev' deployment.log)
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  comment:
+    runs-on: ubuntu-22.04
+    if: always()
+    needs: [deploy-api, deploy-website]
+    steps:
+      - uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'Deployment status'
+      - uses: actions/github-script@v7
+        id: body-generator
+        with:
+          result-encoding: string
+          script: |
+            const jobs = {
+              api: {
+                status: '${{ needs.deploy-api.result }}',
+                url: '${{ needs.deploy-api.outputs.url }}'
+              },
+              website: {
+                status: '${{ needs.deploy-website.result }}',
+                url: '${{ needs.deploy-website.outputs.url }}'
+              },
+            };
+            const totalFailure = Object.values(jobs).every(({ status }) => status === 'failure');
+            const partialFailure = Object.values(jobs).some(({ status }) => status === 'failure');
+
+            const title = (
+              totalFailure
+              ? '💥 Deploy failed!'
+              : partialFailure
+              ? '⚠️ Deploy Preview is partially ready!'
+              : '✅ Deploy Preview is ready!'
+            );
+
+            const statusMap = {
+              success: '✅',
+              failure: '❌',
+            }
+            const lines = Object
+              .entries(jobs)
+              .filter(([, { status }]) => status in statusMap)
+              .map(([name, { status, url }]) => (
+                `| ${name} | ${statusMap[status]} | ${url} |`
+              ))
+
+            return `## ${title}
+
+            Deployment status for ${{ github.sha }}.
+
+            | Name | Status | Link |
+            | ---:| :----: | :--- |
+            ${lines.join('\n')}
+            `;
+
+      - uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.body-generator.outputs.result }}

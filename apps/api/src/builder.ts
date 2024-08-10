@@ -1,7 +1,10 @@
 import SchemaBuilder from "@pothos/core";
 
-export const builder = new SchemaBuilder<{
-  DefaultInputFieldRequiredness: true;
-}>({
-  defaultInputFieldRequiredness: true,
-});
+export const createBuilder = () =>
+  new SchemaBuilder<{
+    DefaultInputFieldRequiredness: true;
+  }>({
+    defaultInputFieldRequiredness: true,
+  });
+
+export type Presentation = (builder: ReturnType<typeof createBuilder>) => void;
