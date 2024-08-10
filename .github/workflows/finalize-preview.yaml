@@ -19,7 +19,7 @@ jobs:
                 '${{ github.ref_name }}/website',
               ].map((environment_name) =>
                 github.rest.repos.deleteAnEnvironment({
-                  owner: '${{ github.event.repository.owner.name }}',
+                  owner: '${{ github.repository_owner }}',
                   repo: '${{ github.event.repository.name }}',
                   environment_name,
                 })
