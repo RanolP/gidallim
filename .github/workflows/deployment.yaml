@@ -4,7 +4,7 @@ on:
 
 concurrency:
   cancel-in-progress: true
-  group: '${{github.ref}}/deployment'
+  group: '${{ github.event.pull_request.number }}/deployment'
 
 permissions:
   pull-requests: write
@@ -34,7 +34,7 @@ jobs:
     outputs:
       url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
     environment:
-      name: ${{ github.ref_name }}/api
+      name: ${{ github.event.pull_request.number }}/api
       url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
     runs-on: ubuntu-22.04
     steps:
@@ -65,7 +65,7 @@ jobs:
     outputs:
       url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
     environment:
-      name: ${{ github.ref_name }}/website
+      name: ${{ github.event.pull_request.number }}/website
       url: ${{ steps.cloudflare-pages-deployment.outputs.url }}
     runs-on: ubuntu-22.04
     steps:

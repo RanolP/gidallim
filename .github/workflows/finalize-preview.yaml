@@ -2,8 +2,6 @@ on:
   pull_request:
     types: ['closed']
 
-permissions: write-all
-
 jobs:
   delete:
     runs-on: ubuntu-latest
@@ -19,8 +17,8 @@ jobs:
           script: |
             await Promise.all(
               [
-                '${{ github.ref_name }}/api',
-                '${{ github.ref_name }}/website',
+                '${{ github.event.pull_request.number }}/api',
+                '${{ github.event.pull_request.number }}/website',
               ].map((environment_name) =>
                 github.rest.repos.deleteAnEnvironment({
                   owner: '${{ github.repository_owner }}',
